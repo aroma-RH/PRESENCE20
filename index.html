@@ -174,44 +174,51 @@
     });
 }
 
-    function filterTable(columnIndex) {
-      const table = document.getElementById("dataTable");
-      const filterInputs = table.querySelectorAll("thead tr:nth-child(2) input");
-      const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+ function filterTable(columnIndex) {
+    const table = document.getElementById("dataTable");
+    const filterInputs = table.querySelectorAll("thead tr:nth-child(2) input");
+    const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 
-      for (let i = 0; i < rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
         let showRow = true;
 
         for (let j = 0; j < filterInputs.length; j++) {
-          const filterValue = filterInputs[j].value.toLowerCase();
-          const cellValue = rows[i].getElementsByTagName("td")[j]?.textContent.toLowerCase() || "";
+            const filterValue = filterInputs[j].value.toLowerCase();
+            const cellValue = rows[i].getElementsByTagName("td")[j]?.textContent.toLowerCase() || "";
 
-          if (filterValue && !cellValue.includes(filterValue)) {
-            showRow = false;
-            break;
-          }
+            if (filterValue && !cellValue.includes(filterValue)) {
+                showRow = false;
+                break;
+            }
         }
 
         rows[i].style.display = showRow ? "" : "none";
-      }
-      calculateRowCount();
     }
+    calculateRowCount(); 
+}
 
-    function calculateRowCount() {
-      const table = document.getElementById("dataTable");
-      const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-      let count = 0;
 
-      for (let i = 0; i < rows.length; i++) {
-        const firstColumnValue = parseFloat(rows[i].getElementsByTagName("td")[0]?.textContent) || 0;
-        const isVisible = rows[i].style.display !== "none";
+function calculateRowCount() {
+    const table = document.getElementById("dataTable");
+    if (!table) return; 
 
-        if (firstColumnValue > 2 && isVisible) {
-          count++;
+    const rows = table.getElementsByTagName("tbody")[0]?.getElementsByTagName("tr");
+    if (!rows) return; o rows
+
+    let count = 0;
+
+    for (let i = 0; i < rows.length; i++) {
+        const secondColumnValue = rows[i].getElementsByTagName("td")[1]?.textContent.trim();
+        const isVisible = rows[i].style.display !== "none";// Check if row is visible
+
+        
+        if (secondColumnValue !== "" && isVisible) {
+            count++;
         }
-      }
-      document.getElementById("rowCount").textContent = count;
     }
+
+    document.getElementById("rowCount").textContent = count;
+}
 
     document.getElementById("loadTable1").addEventListener("click", () => loadData("table1"));
     document.getElementById("loadTable2").addEventListener("click", () => loadData("table2"));
