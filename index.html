@@ -174,7 +174,7 @@
     });
 }
 
- function filterTable(columnIndex) {
+function filterTable(columnIndex) {
     const table = document.getElementById("dataTable");
     const filterInputs = table.querySelectorAll("thead tr:nth-child(2) input");
     const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
@@ -192,7 +192,7 @@
             }
         }
 
-        rows[i].style.display = showRow ? "" : "none";
+        rows[i].style.display = showRow ? "" : "none"; 
     }
     calculateRowCount(); 
 }
@@ -203,15 +203,15 @@ function calculateRowCount() {
     if (!table) return; 
 
     const rows = table.getElementsByTagName("tbody")[0]?.getElementsByTagName("tr");
-    if (!rows) return; o rows
+    if (!rows) return; 
 
     let count = 0;
 
     for (let i = 0; i < rows.length; i++) {
         const secondColumnValue = rows[i].getElementsByTagName("td")[1]?.textContent.trim();
-        const isVisible = rows[i].style.display !== "none";// Check if row is visible
+        const isVisible = rows[i].style.display !== "none"; e
 
-        
+       
         if (secondColumnValue !== "" && isVisible) {
             count++;
         }
