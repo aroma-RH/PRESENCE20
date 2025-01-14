@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EFFECTIF CAMPO</title>
   <style>
     
@@ -64,25 +64,33 @@
     }
     #downloadExcel, #takeScreenshot, #takeScreenshot1, #loadTable1, #loadTable2 {
       display: inline-block;
-      padding: 20px 20px;
+      padding: 10px 20px;
       margin: 10px;
-      font-size: 20px;
+      font-size: 16px;
       color: white;
       background-color: #4a90e2;
       border: none;
       cursor: pointer;
       border-radius: 5px;
       transition: background-color 0.3s ease;
+      
     }
+
     #downloadExcel:hover, #takeScreenshot:hover, #takeScreenshot1:hover, #loadTable1:hover, #loadTable2:hover {
       background-color: #45a049;
     }
+
+    
+
+
     #downloadExcel {
       margin-right: 20px;
     }
+
     #rowCountDisplay {
   text-align: center;
-  width: 100%;
+  
+  align-items: center;
   margin: 15px 0;
   padding: 10px;
   background-color: #4a90e2; 
@@ -95,7 +103,7 @@
 
      #rowCountDisplay strong {
       font-size: 20px;
-      
+      margin-left: 20px;
       
 }
 
@@ -104,7 +112,18 @@
   font-size: 22px; 
 }
 
+.filter-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
 
+    .filter-container input {
+      padding: 10px;
+      font-size: 16px;
+      margin-right: 10px;
+      width: 200px;
+    }
   </style>
 </head>
 <body>
@@ -174,50 +193,43 @@
     });
 }
 
-function filterTable(columnIndex) {
-    const table = document.getElementById("dataTable");
-    const filterInputs = table.querySelectorAll("thead tr:nth-child(2) input");
-    const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+    function filterTable(columnIndex) {
+      const table = document.getElementById("dataTable");
+      const filterInputs = table.querySelectorAll("thead tr:nth-child(2) input");
+      const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 
-    for (let i = 0; i < rows.length; i++) {
+      for (let i = 0; i < rows.length; i++) {
         let showRow = true;
 
         for (let j = 0; j < filterInputs.length; j++) {
-            const filterValue = filterInputs[j].value.toLowerCase();
-            const cellValue = rows[i].getElementsByTagName("td")[j]?.textContent.toLowerCase() || "";
+          const filterValue = filterInputs[j].value.toLowerCase();
+          const cellValue = rows[i].getElementsByTagName("td")[j]?.textContent.toLowerCase() || "";
 
-            if (filterValue && !cellValue.includes(filterValue)) {
-                showRow = false;
-                break;
-            }
+          if (filterValue && !cellValue.includes(filterValue)) {
+            showRow = false;
+            break;
+          }
         }
 
         rows[i].style.display = showRow ? "" : "none";
-    }
-    calculateRowCount();
-}
-
-
-   function calculateRowCount() {
-    const table = document.getElementById("dataTable");
-    if (!table) return;
-
-    const rows = table.getElementsByTagName("tbody")[0]?.getElementsByTagName("tr");
-    if (!rows) return;
-
-    let count = 0;
-
-    for (let i = 0; i < rows.length; i++) {
-        const secondColumnValue = rows[i].getElementsByTagName("td")[1]?.textContent.trim();
-        const isVisible = rows[i].style.display !== "none";
-
-        
-        if (secondColumnValue !== "" && isVisible) {
-            count++;
-        }
+      }
+      calculateRowCount();
     }
 
-    document.getElementById("rowCount").textContent = count;
+    function calculateRowCount() {
+  const table = document.getElementById("dataTable");
+  const rows = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+  let count = 0;
+
+  for (let i = 0; i < rows.length; i++) {
+    const secondColumnValue = rows[i].getElementsByTagName("td")[1]?.textContent.trim(); // عمود 2
+    const isVisible = rows[i].style.display !== "none";
+
+    if (secondColumnValue && secondColumnValue !== "" && isVisible) {
+      count++; // إذا كانت الخانة غير فارغة
+    }
+  }
+  document.getElementById("rowCount").textContent = count; // عرض العدد
 }
 
 
